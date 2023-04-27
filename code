@@ -1,0 +1,100 @@
+// Setup
+var score = 0;
+
+var target = createSprite(350, 200);
+  target.setAnimation("kid");
+  target.scale = 0.4;
+
+var player = createSprite(250, 200);
+  player.setAnimation("player");
+  player.scale = 0.25;
+
+var enemyA = createSprite(200, 350);
+  enemyA.setAnimation("enemyA");
+  enemyA.scale = 0.15;
+  enemyA.y = 150;
+  enemyA.x = -50;
+
+var enemyB = createSprite(200, 200);
+  enemyB.setAnimation("enemyB");
+  enemyB.scale = 0.15;
+  enemyB.y = 250;
+  enemyB.x = -50;
+
+function draw() {
+  gameBackground();
+  enemiesTouchTarget(100, 310);
+  moveInput(player, 3);
+  displaceEnemies();
+  enemiesTouchWater(100, 310);
+  
+  enemyA.x = enemyA.x + 3;
+  enemyB.x = enemyB.x + 3;
+  
+  showScore();
+  drawSprites();
+}
+
+// Functions
+function gameBackground() {
+  noStroke();
+  background("black");
+  fill("white");
+  rect(0,100,400,200);
+  fill("lightblue");
+  rect(0,100,400,10);
+  rect(0,300,400,10);
+}
+
+function enemiesTouchTarget(topY, bottomY){
+  if (enemyA.isTouching(target)){
+    score = score - 2.03;
+    enemyA.x = -50;
+    enemyA.y = randomNumber(topY, bottomY);
+  }
+  if (enemyB.isTouching(target)){
+    score = score - 2.03;
+    enemyB.x = -50;
+    enemyB.y = randomNumber(topY, bottomY);
+  }
+}
+
+function moveInput(sprite, speed){
+  if (keyDown("left")){
+    sprite.x = sprite.x - speed;
+  }
+  if (keyDown("right")){
+    sprite.x = sprite.x + speed;
+  }
+  if (keyDown("up")){
+    sprite.y = sprite.y - speed;
+  }
+  if (keyDown("down")){
+    sprite.y = sprite.y + speed;
+  }
+}
+
+function displaceEnemies(){
+  player.displace(enemyA);
+  player.displace(enemyB);
+}
+
+function enemiesTouchWater(topY, bottomY){
+  if (enemyA.y <= topY || enemyA.y >= bottomY){
+    enemyA.x = -50;
+    enemyA.y = randomNumber(topY, bottomY);
+    score ++;
+  }
+  if (enemyB.y <= topY || enemyB.y >= bottomY){
+    enemyB.x = -50;
+    enemyB.y = randomNumber(topY, bottomY);
+    score ++;
+  }
+}
+
+function showScore() {
+  fill("white");
+  textSize(20);
+  text("Score",20,20,200,100);
+  text(score,20,40,200,100);
+}
