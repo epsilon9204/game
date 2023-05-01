@@ -138,7 +138,7 @@ function endGame(hits){
     fill("white");
     textSize(100);
     textFont("Courier New");
-    text("GAME \nOVER \n=(", 60, 100);
+    text("HE \nDIED \n=(", 60, 100);
   }
 }
   
